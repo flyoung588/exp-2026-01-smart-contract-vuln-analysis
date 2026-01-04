@@ -1,29 +1,32 @@
 # DAO Reentrancy Vulnerability Analysis
 
 ## 1. Background
-The DAO was an early decentralized autonomous organization built on Ethereum.
-In 2016, a vulnerability in its withdrawal logic allowed repeated fund extraction,
-leading to a large-scale loss of funds.
+The DAO was an early decentralized investment fund built on Ethereum.
+Users deposited ETH into a smart contract and were later able to withdraw their funds.
 
-This document analyzes the vulnerability from a structural and logical perspective,
-without reproducing the exploit.
+In 2016, a vulnerability in the withdrawal logic allowed an attacker
+to repeatedly drain ETH from the contract, leading to one of the most
+significant security incidents in Ethereum's history.
 
 ---
 
 ## 2. Vulnerability Category
-- Type: Reentrancy
-- Core issue: External call before internal state update
+- Vulnerability type: Reentrancy
+- Core issue: External call executed before internal state update
 
 ---
 
 ## 3. High-Level Contract Logic (Simplified)
-The vulnerable withdrawal logic followed this sequence:
 
-1. User requests withdrawal
-2. Contract sends Ether to user
-3. Contract updates user's balance
+The vulnerable withdrawal process followed this logical sequence:
 
-This ordering introduced unintended control flow re-entry.
+1. A user requests to withdraw funds
+2. The contract sends ETH to the user
+3. The contract updates the user's balance
+
+The problem is that step 2 triggers external code execution.
+Before step 3 is completed, the external contract can call back into
+the withdrawal function and repeat the process.
 
 ---
 
