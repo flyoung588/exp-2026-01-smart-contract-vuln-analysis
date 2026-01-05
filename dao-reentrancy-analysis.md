@@ -31,19 +31,30 @@ the withdrawal function and repeat the process.
 ---
 
 ## 4. Root Cause Analysis
-The fundamental problem was not the external call itself,
-but the assumption that control flow would return only once.
+The root cause of this vulnerability was a flawed assumption
+about control flow during external interactions.
 
-By calling an external address before updating internal state,
-the contract allowed recursive calls that repeatedly passed balance checks.
+The contract assumed that once ETH was sent to a user,
+execution would resume normally and only once.
+This assumption ignored the possibility that the recipient
+could execute arbitrary logic before the internal balance
+was updated.
+
+As a result, the contract repeatedly relied on outdated state
+while approving multiple withdrawals.
 
 ---
 
 ## 5. Why This Was Easy to Miss
-Several factors contributed to the vulnerability:
-- Developers assumed sequential execution
-- External calls were treated as "safe transfers"
-- No mental model for adversarial re-entry existed at the time
+This vulnerability was easy to overlook due to several factors.
+
+Developers intuitively expected withdrawal logic to execute
+in a simple, linear sequence.
+External transfers were often treated as safe, final actions,
+rather than points where control could be lost.
+
+At the time, there was limited awareness that a single function
+call could be re-entered before its previous execution completed.
 
 ---
 
