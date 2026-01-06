@@ -77,8 +77,17 @@ validation, state mutation, and external communication.
 ---
 
 ## 7. Limitations
-This analysis focuses on logical structure rather than bytecode-level behavior.
-It does not cover modern mitigations such as reentrancy guards.
+This analysis focuses on the high-level logical flow of the DAO
+withdrawal mechanism rather than low-level EVM or bytecode behavior.
+
+It does not examine gas-related constraints, compiler-specific
+optimizations, or subtle edge cases that may arise in real-world
+deployments.
+
+Additionally, this document does not cover modern mitigation
+techniques such as reentrancy guards or language-level protections,
+as the goal is to analyze the original vulnerability in its
+historical and conceptual context.
 
 ---
 
