@@ -59,10 +59,20 @@ call could be re-entered before its previous execution completed.
 ---
 
 ## 6. Defensive Insights
-Key defensive lessons include:
-- Always update internal state before external calls
-- Follow the Checks-Effects-Interactions pattern
-- Treat every external call as untrusted
+This vulnerability highlights several defensive principles
+that can be applied beyond this specific case.
+
+First, internal state must always be updated before making
+any external calls. This prevents attackers from exploiting
+inconsistent or outdated contract state.
+
+Second, every external interaction should be treated as
+potentially malicious, regardless of whether the recipient
+appears trusted.
+
+Finally, developers should adopt defensive design patterns
+such as Checks-Effects-Interactions to explicitly separate
+validation, state mutation, and external communication.
 
 ---
 
